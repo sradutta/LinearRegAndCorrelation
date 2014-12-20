@@ -18,9 +18,10 @@ print loansData['Interest.Rate'][0:5]
 print loansData['Loan.Length'][0:5]
 
 '''convert the data in FICO.Range into string and split the string and take the lowest value'''
-#loansData['FICO.Score'] = str(loansData['FICO.Range'])
-#print loansData['FICO.Range'][0:5]
-
+loansData['FICO.Score'] = loansData['FICO.Range'].astype(str)
+print loansData['FICO.Score'][0:5]
+loansData['FICO.Score'] = loansData['FICO.Score'].split()
+print loansData['FICO.Score'][0:5]
 
 
 
