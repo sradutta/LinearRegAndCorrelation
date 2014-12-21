@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np 
-
+import statsmodels.api as sm
 
 loansData = pd.read_csv('loansData.csv')
 
@@ -41,8 +41,28 @@ plt.show()
 a=pd.scatter_matrix(loansData, alpha=0.05, figure=(10,10))
 plt.show()
 
-
+#plots on the diagonal showing histogram for each variable. 
 a=pd.scatter_matrix(loansData, alpha=0.05, figure=(10,10), diagonal='hist')
 plt.show()
 
+#regression analysis of the cleaned up columns
+intrate = loansData['Interest.Rate']
+loanamt = loansData['Amount.Requested']
+fico = loansData['FICO.Score']
 
+#the columns are returned as Series, so reshape required.
+#the matrix transpose takes the column and return them as 1d-array 
+y = np.matrix(intrate).transpose()  #dependent variable
+print (y)
+x1 = np.matrix(fico).transpose()    #independent variable
+x2 = np.matrix(loanamt).transpose() #independent variable
+print(x1)
+print(x2)
+
+#take the independent matrix and create an input matrix, 1 col for each variable
+x = np.column_stack([x1,x2])
+
+#creating the linear model
+X = sm.add_constant(x)
+model = sm.OLS(y,X)
+f = model.fit()
